@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mustaed Design System - Purple & White Saudi SaaS */
+
+@layer base {
+  :root {
+    /* Mustaed Brand Purple Palette */
+    --mustaed-primary: 270 99% 36%;
+    --mustaed-deep: 260 88% 27%;
+    --mustaed-electric: 272 95% 42%;
+    --mustaed-soft: 260 32% 59%;
+    --mustaed-light: 260 28% 80%;
+    --mustaed-white: 270 33% 95%;
+
+    /* Semantic Tokens */
+    --background: 270 33% 97%;
+    --foreground: 260 88% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 260 88% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 260 88% 15%;
+
+    --primary: 270 99% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 260 28% 92%;
+    --secondary-foreground: 260 88% 27%;
+
+    --muted: 260 20% 94%;
+    --muted-foreground: 260 20% 45%;
+
+    --accent: 272 95% 42%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 260 28% 88%;
+    --input: 260 28% 88%;
+    --ring: 270 99% 36%;
+
+    --radius: 1rem;
+
+    /* Custom Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(270 99% 36%) 0%, hsl(260 88% 27%) 100%);
+    --gradient-electric: linear-gradient(135deg, hsl(272 95% 42%) 0%, hsl(270 99% 36%) 100%);
+    --gradient-soft: linear-gradient(180deg, hsl(270 33% 97%) 0%, hsl(260 28% 92%) 100%);
+
+    /* Custom Shadows */
+    --shadow-sm: 0 2px 8px -2px hsl(270 99% 36% / 0.1);
+    --shadow-md: 0 8px 24px -8px hsl(270 99% 36% / 0.15);
+    --shadow-lg: 0 16px 40px -12px hsl(270 99% 36% / 0.2);
+    --shadow-card: 0 4px 20px -4px hsl(260 88% 27% / 0.08);
+    --shadow-card-hover: 0 8px 32px -8px hsl(270 99% 36% / 0.18);
+  }
+
+  .dark {
+    --background: 260 88% 8%;
+    --foreground: 260 28% 95%;
+
+    --card: 260 88% 12%;
+    --card-foreground: 260 28% 95%;
+
+    --popover: 260 88% 12%;
+    --popover-foreground: 260 28% 95%;
+
+    --primary: 272 95% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 260 30% 20%;
+    --secondary-foreground: 260 28% 95%;
+
+    --muted: 260 30% 18%;
+    --muted-foreground: 260 20% 60%;
+
+    --accent: 272 95% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --border: 260 30% 22%;
+    --input: 260 30% 22%;
+    --ring: 272 95% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    direction: rtl;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-cairo antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+}
+
+@layer components {
+
+  /* Hero Button Variants */
+  .btn-hero-primary {
+    @apply bg-primary text-primary-foreground px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98];
+    background: var(--gradient-primary);
+  }
+
+  .btn-hero-secondary {
+    @apply bg-card text-primary border-2 border-primary px-8 py-4 rounded-xl font-bold text-lg shadow-md hover:shadow-lg transition-all duration-300 hover:bg-primary hover:text-primary-foreground;
+  }
+
+  /* Card Styles */
+  .card-service {
+    @apply bg-card rounded-2xl p-6 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-package {
+    @apply bg-card rounded-3xl p-8 transition-all duration-500 relative overflow-hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-package-featured {
+    @apply card-package ring-2 ring-primary;
+    background: var(--gradient-soft);
+  }
+
+  .card-feature {
+    @apply bg-card rounded-2xl p-6 text-center transition-all duration-300 hover:shadow-card-hover;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Section Styles */
+  .section-padding {
+    @apply py-16 md:py-24 px-4;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto;
+  }
+
+  /* Icon Container */
+  .icon-container {
+    @apply w-16 h-16 rounded-2xl flex items-center justify-center mb-4 mx-auto bg-gradient-to-br from-primary/10 to-accent/10;
+  }
+
+  .icon-container-lg {
+    @apply w-20 h-20 rounded-3xl flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10;
+  }
+
+  /* WhatsApp Floating Button */
+  .whatsapp-float {
+    @apply fixed left-6 bottom-6 w-14 h-14 rounded-full flex items-center justify-center bg-green-500 text-white shadow-lg z-50 transition-all duration-300 hover:scale-110 hover:shadow-xl;
+  }
+
+  /* Decorative Elements */
+  .blob-decoration {
+    @apply absolute rounded-full opacity-20 blur-3xl pointer-events-none;
+    background: var(--gradient-electric);
+  }
+
+  /* Glass Effect */
+  .glass-effect {
+    @apply backdrop-blur-md bg-card/80;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  .gradient-bg {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-soft-bg {
+    background: var(--gradient-soft);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+
+  .font-cairo {
+    font-family: 'Cairo', sans-serif;
+  }
+}
+
+/* Force override Radix UI scroll locking */
+body[style*="overflow: hidden"] {
+  overflow: auto !important;
+  padding-right: 0 !important;
+}
+
+body[data-scroll-locked] {
+  overflow: auto !important;
+  padding-right: 0 !important;
+}
