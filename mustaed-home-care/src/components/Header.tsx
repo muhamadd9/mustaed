@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Phone, User, LogOut, ChevronDown, LayoutDashboard } from 'lucide-react';
+import { Menu, X, Phone, User, LogOut, ChevronDown, LayoutDashboard, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '@/assets/mustaed-logo.png';
@@ -88,12 +88,17 @@ const Header = () => {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate('/my-subscription')} className="flex items-center justify-end cursor-pointer">
+                      <span className="ml-2">اشتراكي</span>
+                      <Package className="h-4 w-4" />
+                    </DropdownMenuItem>
                   {role === 'admin' && (
                     <DropdownMenuItem onClick={() => navigate('/admin/dashboard')} className="flex items-center justify-end cursor-pointer">
                       <span className="ml-2">لوحة التحكم</span>
                       <LayoutDashboard className="h-4 w-4" />
                     </DropdownMenuItem>
                   )}
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout} className="flex items-center justify-end text-red-600 focus:text-red-600 cursor-pointer">
                     <span className="ml-2">تسجيل الخروج</span>
                     <LogOut className="h-4 w-4" />
@@ -150,6 +155,10 @@ const Header = () => {
               <div className="px-6 py-4 border-t border-border mt-2 space-y-3">
                 {isAuthenticated ? (
                   <>
+                    <Button onClick={() => { navigate('/my-subscription'); setIsMenuOpen(false); }} variant="outline" className="w-full justify-start gap-2">
+                        <Package className="h-4 w-4" />
+                        اشتراكي
+                    </Button>
                     {role === 'admin' && (
                       <Button onClick={() => navigate('/admin/dashboard')} variant="outline" className="w-full justify-start gap-2">
                         <LayoutDashboard className="h-4 w-4" />

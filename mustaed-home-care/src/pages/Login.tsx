@@ -21,8 +21,8 @@ const Login = () => {
         setIsLoading(true);
         try {
             const response = await authService.login(data.email, data.password);
-            if (response.success || response.token || response.access_token) {
-                login(response);
+            if (response.success) {
+                login(response.data);
                 // Toast is handled in login function usually, but safe to add here if needed
             } else {
                 toast.error(response.message || 'فشل تسجيل الدخول');

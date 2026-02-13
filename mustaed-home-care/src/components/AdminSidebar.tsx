@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, Users, CreditCard, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, CreditCard, FileText, Settings, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 const AdminSidebar = () => {
@@ -12,6 +12,7 @@ const AdminSidebar = () => {
         { name: "لوحة التحكم", path: "/admin/dashboard", icon: LayoutDashboard },
         { name: "المستخدمين", path: "/admin/users", icon: Users },
         { name: "الباقات", path: "/admin/plans", icon: CreditCard },
+        { name: "الاشتراكات", path: "/admin/subscriptions", icon: FileText },
         { name: "الإعدادات", path: "/admin/settings", icon: Settings },
     ];
 

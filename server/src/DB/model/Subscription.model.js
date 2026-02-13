@@ -4,9 +4,10 @@ const subscriptionSchema = new Schema(
     {
         userId: { type: Types.ObjectId, ref: "User", required: true },
         planId: { type: Types.ObjectId, ref: "Plan", required: true },
+        planName: { type: String, required: true },
         price: { type: Number, required: true },
-        totalInvitations: { type: Number, required: true },
-        usedInvitations: { type: Number, default: 0 },
+        billingPeriod: { type: String, enum: ['yearly', 'monthly'], default: 'yearly' },
+        visits: { type: Number, default: 0 },
         startDate: { type: Date, default: Date.now },
         endDate: { type: Date },
         status: {
@@ -18,8 +19,7 @@ const subscriptionSchema = new Schema(
     { timestamps: true }
 );
 
-// Ensure user has only one active subscription if needed, but for history we allow multiple.
-// specific query can just find the one with status 'active'.
+subscriptionSchema.index({ userId: 1, status: 1 });
 
 const subscriptionModel = model("Subscription", subscriptionSchema);
 export default subscriptionModel;

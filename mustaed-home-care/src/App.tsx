@@ -9,11 +9,13 @@ import Index from "./pages/Index";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminPlans from "./pages/admin/Plans/AdminPlans";
+import AdminSubscriptions from "./pages/admin/Subscriptions/AdminSubscriptions";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
+import MySubscription from '@/pages/MySubscription';
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
+              <Route path="my-subscription" element={<MySubscription />} />
               <Route path="*" element={<NotFound />} />
             </Route>
 
@@ -38,6 +41,7 @@ const App = () => (
               <Route element={<AdminLayout />}>
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
                 <Route path="/admin/plans" element={<AdminPlans />} />
+                <Route path="/admin/subscriptions" element={<AdminSubscriptions />} />
               </Route>
             </Route>
           </Routes>

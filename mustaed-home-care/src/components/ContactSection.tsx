@@ -1,10 +1,11 @@
-import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import WhatsAppIcon from './icons/WhatsAppIcon';
 
 const ContactSection = () => {
   const contacts = [
     {
-      icon: MessageCircle,
+      icon: WhatsAppIcon,
       label: 'واتساب (الطريقة المفضلة)',
       value: '+966 56 386 6234',
       href: 'https://wa.me/966563866234',
@@ -81,7 +82,7 @@ const ContactSection = () => {
               className="btn-hero-primary text-lg px-12"
             >
               <a href="https://wa.me/966563866234" target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="w-5 h-5 ml-2" />
+                <WhatsAppIcon className="w-5 h-5 ml-2" />
                 تواصل عبر واتساب
               </a>
             </Button>

@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         Cookies.remove('role', { path: '/' });
 
         toast.info("تم تسجيل الخروج");
-        navigate('/admin/login');
+        navigate('/');
     };
 
     return (
@@ -109,7 +109,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             role,
             login,
             logout,
-            isAuthenticated: !!token,
+            isAuthenticated: !!token && !!user,
             isLoading
         }}>
             {children}

@@ -2,19 +2,32 @@ import { useEffect, useState } from 'react';
 import { Check, Star, Sparkles, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Plan, planService } from '@/services/plan.service';
+import { subscriptionService } from '@/services/subscription.service';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
 
 const PackagesSection = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+  const [isSubscribing, setIsSubscribing] = useState(false);
+
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPlans = async () => {
       try {
         const response = await planService.getAllPlans();
-        // API returns { success: true, data: { plans: [...] } }
         if (response?.data?.plans) {
           setPlans(response.data.plans);
         }
@@ -28,17 +41,28 @@ const PackagesSection = () => {
     fetchPlans();
   }, []);
 
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-
-  const handleSubscribe = (planId: string) => {
+  const handleSubscribeClick = (plan: Plan) => {
     if (!isAuthenticated) {
       toast.info('يرجى تسجيل الدخول أولاً للاشتراك', { position: 'top-center' });
       navigate('/login');
-    } else {
-      // Proceed to subscription (e.g., checkout page)
-      // For now we can toast
-      toast.success('سيتم تحويلك لصفحة الدفع قريباً');
+      return;
+    }
+    setSelectedPlan(plan);
+  };
+
+  const handleConfirmSubscribe = async () => {
+    if (!selectedPlan) return;
+    setIsSubscribing(true);
+    try {
+      const response = await subscriptionService.subscribe(selectedPlan._id);
+      if (response.success) {
+        toast.success('تم الاشتراك بنجاح! شكراً لثقتك بمستعد');
+        setSelectedPlan(null);
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'حدث خطأ أثناء الاشتراك');
+    } finally {
+      setIsSubscribing(false);
     }
   };
 
@@ -52,7 +76,6 @@ const PackagesSection = () => {
     );
   }
 
-  // Fallback if no plans
   if (!plans.length) {
     return null;
   }
@@ -115,7 +138,7 @@ const PackagesSection = () => {
 
                 <Button
                   className={`w-full py-6 text-lg ${plan.isFeatured ? 'btn-hero-primary' : 'btn-hero-secondary'}`}
-                  onClick={() => handleSubscribe(plan._id)}
+                  onClick={() => handleSubscribeClick(plan)}
                 >
                   اشترك الآن
                 </Button>
@@ -124,6 +147,73 @@ const PackagesSection = () => {
           })}
         </div>
       </div>
+
+      {/* Subscription Confirmation Modal */}
+      <Dialog open={!!selectedPlan} onOpenChange={(open) => !open && setSelectedPlan(null)}>
+        <DialogContent dir="rtl" className="sm:max-w-md">
+          <DialogHeader className="text-right">
+            <DialogTitle className="text-xl">تأكيد الاشتراك</DialogTitle>
+            <DialogDescription className="text-right">
+              أنت على وشك الاشتراك في الباقة التالية
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedPlan && (
+            <div className="space-y-4 py-4">
+              <div className="bg-primary/5 rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">الباقة</span>
+                  <span className="font-bold text-foreground">{selectedPlan.name}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">السعر</span>
+                  <span className="font-bold text-primary text-lg">
+                    {selectedPlan.priceAfterDiscount} ريال
+                  </span>
+                </div>
+                {selectedPlan.price !== selectedPlan.priceAfterDiscount && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">السعر قبل الخصم</span>
+                    <span className="line-through text-muted-foreground">{selectedPlan.price} ريال</span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">مدة الاشتراك</span>
+                  <span className="font-medium">{selectedPlan.billingPeriod === 'yearly' ? 'سنوي' : 'شهري'}</span>
+                </div>
+                {selectedPlan.visits > 0 && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">عدد الزيارات</span>
+                    <span className="font-medium">{selectedPlan.visits} زيارة</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          <DialogFooter className="flex gap-3 sm:gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setSelectedPlan(null)}
+              disabled={isSubscribing}
+              className="flex-1"
+            >
+              إلغاء
+            </Button>
+            <Button
+              onClick={handleConfirmSubscribe}
+              disabled={isSubscribing}
+              className="flex-1 btn-hero-primary"
+            >
+              {isSubscribing ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                'تأكيد الاشتراك'
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
