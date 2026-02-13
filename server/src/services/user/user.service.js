@@ -51,7 +51,7 @@ export const getMe = asyncHandler(async (req, res, next) => {
     const subscription = await subscriptionModel.findOne({
         userId: currentUserId,
         status: 'active'
-    }).populate('planId', 'name');
+    }).populate('planId', 'name visits');
 
     return successResponse({ res, data: { ...me.toObject(), subscription } });
 });

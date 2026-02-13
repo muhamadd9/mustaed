@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { subscriptionService } from '@/services/subscription.service';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, Calendar, Clock, CheckCircle, Package, History, ArrowLeft } from 'lucide-react';
+import { Loader2, Calendar, Clock, CheckCircle, Package, History, ArrowLeft, ClipboardList, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '@/context/AuthContext';
@@ -179,6 +179,40 @@ const MySubscription = () => {
                                         <p className="text-xs text-muted-foreground">السعر</p>
                                         <p className="text-sm font-bold text-primary">{current.price} ريال</p>
                                     </div>
+                                </div>
+                            </div>
+
+                            {/* Visits Section */}
+                            <div className="bg-gradient-to-l from-primary/5 to-primary/10 rounded-2xl p-5 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                                        <ClipboardList className="w-6 h-6 text-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-muted-foreground">الزيارات المتبقية</p>
+                                        <p className="text-2xl font-bold text-primary">{current.visits} زيارة</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-2">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => navigate('/my-visits')}
+                                        className="gap-1"
+                                    >
+                                        <ClipboardList className="w-4 h-4" />
+                                        زياراتي
+                                    </Button>
+                                    {current.visits > 0 && (
+                                        <Button
+                                            size="sm"
+                                            onClick={() => navigate('/request-visit')}
+                                            className="gap-1"
+                                        >
+                                            <Plus className="w-4 h-4" />
+                                            طلب زيارة
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
 

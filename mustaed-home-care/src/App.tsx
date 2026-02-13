@@ -16,6 +16,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import MySubscription from '@/pages/MySubscription';
+import RequestVisit from '@/pages/RequestVisit';
+import MyVisits from '@/pages/MyVisits';
+import AdminOrders from '@/pages/admin/Orders/AdminOrders';
 
 const queryClient = new QueryClient();
 
@@ -32,6 +35,8 @@ const App = () => (
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
               <Route path="my-subscription" element={<MySubscription />} />
+              <Route path="request-visit" element={<RequestVisit />} />
+              <Route path="my-visits" element={<MyVisits />} />
               <Route path="*" element={<NotFound />} />
             </Route>
 
@@ -42,6 +47,7 @@ const App = () => (
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
                 <Route path="/admin/plans" element={<AdminPlans />} />
                 <Route path="/admin/subscriptions" element={<AdminSubscriptions />} />
+                <Route path="/admin/orders" element={<AdminOrders />} />
               </Route>
             </Route>
           </Routes>

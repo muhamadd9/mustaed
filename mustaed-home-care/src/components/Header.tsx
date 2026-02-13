@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Phone, User, LogOut, ChevronDown, LayoutDashboard, Package } from 'lucide-react';
+import { Menu, X, Phone, User, LogOut, ChevronDown, LayoutDashboard, Package, ClipboardList, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '@/assets/mustaed-logo.png';
@@ -92,6 +92,14 @@ const Header = () => {
                       <span className="ml-2">اشتراكي</span>
                       <Package className="h-4 w-4" />
                     </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/request-visit')} className="flex items-center justify-end cursor-pointer">
+                      <span className="ml-2">طلب زيارة</span>
+                      <Plus className="h-4 w-4" />
+                    </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/my-visits')} className="flex items-center justify-end cursor-pointer">
+                      <span className="ml-2">زياراتي</span>
+                      <ClipboardList className="h-4 w-4" />
+                    </DropdownMenuItem>
                   {role === 'admin' && (
                     <DropdownMenuItem onClick={() => navigate('/admin/dashboard')} className="flex items-center justify-end cursor-pointer">
                       <span className="ml-2">لوحة التحكم</span>
@@ -158,6 +166,14 @@ const Header = () => {
                     <Button onClick={() => { navigate('/my-subscription'); setIsMenuOpen(false); }} variant="outline" className="w-full justify-start gap-2">
                         <Package className="h-4 w-4" />
                         اشتراكي
+                    </Button>
+                    <Button onClick={() => { navigate('/request-visit'); setIsMenuOpen(false); }} variant="outline" className="w-full justify-start gap-2">
+                        <Plus className="h-4 w-4" />
+                        طلب زيارة
+                    </Button>
+                    <Button onClick={() => { navigate('/my-visits'); setIsMenuOpen(false); }} variant="outline" className="w-full justify-start gap-2">
+                        <ClipboardList className="h-4 w-4" />
+                        زياراتي
                     </Button>
                     {role === 'admin' && (
                       <Button onClick={() => navigate('/admin/dashboard')} variant="outline" className="w-full justify-start gap-2">

@@ -27,7 +27,7 @@ export const createPlanSchema = Joi.object({
     }),
     features: Joi.array().items(Joi.string()).optional(),
     billingPeriod: Joi.string().valid('yearly', 'monthly').default('yearly'),
-    tag: Joi.string().optional(),
+    tag: Joi.string().allow('', null).optional(),
     visits: Joi.number().min(1).required(),
     isFeatured: Joi.boolean().optional()
 }).required();
@@ -41,8 +41,8 @@ export const updatePlanSchema = Joi.object({
     discountPercentage: Joi.number().min(0).max(100).optional(),
     features: Joi.array().items(Joi.string()).optional(),
     billingPeriod: Joi.string().valid('yearly', 'monthly').optional(),
-    tag: Joi.string(),
-    visits: Joi.number().min(1).required(),
+    tag: Joi.string().allow('', null).optional(),
+    visits: Joi.number().min(1).optional(),
     isFeatured: Joi.boolean().optional()
 }).required();
 

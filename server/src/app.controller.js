@@ -7,6 +7,7 @@ import guestRouter from "./services/guest/guest.controller.js";
 import planRouter from "./services/plan/plan.controller.js";
 import paymentRouter from "./services/payment/payment.controller.js";
 import subscriptionRouter from "./services/subscription/subscription.router.js";
+import orderRouter from "./services/order/order.router.js";
 import adminRouter from "./services/admin/admin.controller.js";
 import { globalErrorHandler } from "./utils/response/error.response.js";
 import cors from "cors";
@@ -29,7 +30,8 @@ const bootstrap = (app, express) => {
   app.use("/guest", guestRouter);
   app.use("/plan", planRouter);
   app.use("/payment", paymentRouter);
-  app.use("/subscription", subscriptionRouter); // Added subscription router
+  app.use("/subscription", subscriptionRouter);
+  app.use("/order", orderRouter);
   app.use("/admin", adminRouter);
 
   app.use(globalErrorHandler);

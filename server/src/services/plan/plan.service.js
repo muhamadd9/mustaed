@@ -1,11 +1,12 @@
 import planModel from "../../DB/model/Plan.model.js";
+import subscriptionModel from "../../DB/model/Subscription.model.js";
 import { asyncHandler } from "../../utils/response/error.response.js";
 import { successResponse } from "../../utils/response/success.response.js";
 import { create, find, findById, findOne, updateOne, deleteOne } from "../../DB/dbService.js";
 
 /* Create Plan */
 export const createPlan = asyncHandler(async (req, res, next) => {
-    const { name, subtitle, description, price, discountPercentage, limits, isFeatured, features, billingPeriod, tag, type } = req.body;
+    const { name, subtitle, description, price, discountPercentage, limits, isFeatured, features, billingPeriod, tag, type, visits } = req.body;
 
     // Check if name exists
     const existingPlan = await findOne({ model: planModel, filter: { name } });
@@ -31,7 +32,8 @@ export const createPlan = asyncHandler(async (req, res, next) => {
             features,
             billingPeriod,
             tag,
-            type
+            type,
+            visits: visits || 0
         }
     });
 
@@ -57,7 +59,7 @@ export const getPlan = asyncHandler(async (req, res, next) => {
 /* Update Plan */
 export const updatePlan = asyncHandler(async (req, res, next) => {
     const { planId } = req.params;
-    const { name, subtitle, description, price, discountPercentage, limits, isFeatured, features, billingPeriod, tag, type } = req.body;
+    const { name, subtitle, description, price, discountPercentage, limits, isFeatured, features, billingPeriod, tag, type, visits } = req.body;
 
     const plan = await findById({ model: planModel, id: planId });
     if (!plan) {
@@ -80,10 +82,13 @@ export const updatePlan = asyncHandler(async (req, res, next) => {
         newPriceAfterDiscount = newPrice - (newPrice * newDiscount / 100);
     }
 
-    const updatedPlan = await updateOne({
-        model: planModel,
-        filter: { _id: planId },
-        data: {
+    const newVisits = visits !== undefined ? visits : plan.visits;
+    // Normalize tag: empty string → null (removes the tag)
+    const newTag = tag === '' ? null : tag;
+
+    const updatedPlan = await planModel.findByIdAndUpdate(
+        planId,
+        {
             name,
             subtitle,
             description,
@@ -94,10 +99,23 @@ export const updatePlan = asyncHandler(async (req, res, next) => {
             isFeatured,
             features,
             billingPeriod,
-            tag,
-            type
+            tag: newTag,
+            type,
+            visits: newVisits
+        },
+        { new: true }
+    );
+
+    // If visits changed, sync all active subscriptions on this plan
+    if (visits !== undefined && visits !== plan.visits) {
+        const diff = visits - plan.visits; // e.g. plan had 6, now 10 → diff = +4
+        if (diff !== 0) {
+            await subscriptionModel.updateMany(
+                { planId, status: 'active' },
+                { $inc: { visits: diff } }
+            );
         }
-    });
+    }
 
     return successResponse({ res, message: "تم تحديث الخطة بنجاح", data: { plan: updatedPlan } });
 });
