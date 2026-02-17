@@ -22,11 +22,9 @@ export const generalFeilds = {
   name: Joi.string().min(6).max(50).messages(getMessages("الاسم")),
   email: Joi.string().email().messages(getMessages("البريد الإلكتروني")),
   password: Joi.string()
-    .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-    .messages({
-      ...getMessages("كلمة المرور"),
-      "string.pattern.base": "يجب أن تتكون كلمة المرور من 3 إلى 30 حرفاً أو رقماً",
-    }),
+    .min(3)
+    .max(30)
+    .messages(getMessages("كلمة المرور")),
   confirmPassword: Joi.string().valid(Joi.ref("password")).messages({
     ...getMessages("تأكيد كلمة المرور"),
     "any.only": "كلمة المرور غير متطابقة",

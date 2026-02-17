@@ -18,7 +18,7 @@ export const userService = {
     getAll: async (page = 1, limit = 10, search?: string) => {
         const params = new URLSearchParams({ page: String(page), limit: String(limit) });
         if (search) params.append('search', search);
-        const response = await api.get(`/user?${params}`);
+        const response = await api.get(`/admin/users?${params}`);
         return response.data;
     },
 

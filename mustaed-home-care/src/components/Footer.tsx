@@ -83,7 +83,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <div className="text-sm text-white/50">واتساب</div>
-                  <a href="https://wa.me/966563866234" className="hover:text-primary transition-colors">
+                  <a href="https://wa.me/966563866234" className="hover:text-primary transition-colors inline-block" dir="ltr">
                     +966 56 386 6234
                   </a>
                 </div>
@@ -114,14 +114,18 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-center">
             <p className="text-white/50 text-sm">
-              © {new Date().getFullYear()} مستعد. جميع الحقوق محفوظة.
+              © {new Date().getFullYear()} مستعد. جميع الحقوق محفوظة. تطوير{' '}
+              <a
+                href="https://muhamadeltaweel.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 transition-colors font-medium"
+              >
+                Muhamad Ramadan
+              </a>
             </p>
-            <div className="flex gap-6 text-sm text-white/50">
-              <a href="#" className="hover:text-white transition-colors">سياسة الخصوصية</a>
-              <a href="#" className="hover:text-white transition-colors">الشروط والأحكام</a>
-            </div>
           </div>
         </div>
       </div>

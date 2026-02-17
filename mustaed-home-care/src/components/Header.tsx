@@ -78,9 +78,9 @@ const Header = () => {
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuContent className="w-56" align="end" forceMount dir="rtl">
                   <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1 text-right">
+                    <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">{user.fullname}</p>
                       <p className="text-xs leading-none text-muted-foreground">
                         {user.email}
@@ -88,28 +88,28 @@ const Header = () => {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate('/my-subscription')} className="flex items-center justify-end cursor-pointer">
-                      <span className="ml-2">اشتراكي</span>
+                  <DropdownMenuItem onClick={() => navigate('/my-subscription')} className="flex items-center gap-2 cursor-pointer">
                       <Package className="h-4 w-4" />
+                      <span>اشتراكي</span>
                     </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate('/request-visit')} className="flex items-center justify-end cursor-pointer">
-                      <span className="ml-2">طلب زيارة</span>
+                  <DropdownMenuItem onClick={() => navigate('/request-visit')} className="flex items-center gap-2 cursor-pointer">
                       <Plus className="h-4 w-4" />
+                      <span>طلب زيارة</span>
                     </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate('/my-visits')} className="flex items-center justify-end cursor-pointer">
-                      <span className="ml-2">زياراتي</span>
+                  <DropdownMenuItem onClick={() => navigate('/my-visits')} className="flex items-center gap-2 cursor-pointer">
                       <ClipboardList className="h-4 w-4" />
+                      <span>زياراتي</span>
                     </DropdownMenuItem>
                   {role === 'admin' && (
-                    <DropdownMenuItem onClick={() => navigate('/admin/dashboard')} className="flex items-center justify-end cursor-pointer">
-                      <span className="ml-2">لوحة التحكم</span>
+                    <DropdownMenuItem onClick={() => navigate('/admin/dashboard')} className="flex items-center gap-2 cursor-pointer">
                       <LayoutDashboard className="h-4 w-4" />
+                      <span>لوحة التحكم</span>
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout} className="flex items-center justify-end text-red-600 focus:text-red-600 cursor-pointer">
-                    <span className="ml-2">تسجيل الخروج</span>
+                  <DropdownMenuItem onClick={logout} className="flex items-center gap-2 text-red-600 focus:text-red-600 cursor-pointer">
                     <LogOut className="h-4 w-4" />
+                    <span>تسجيل الخروج</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

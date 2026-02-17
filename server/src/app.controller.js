@@ -19,6 +19,7 @@ const bootstrap = (app, express) => {
   connectDB();
 
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
   app.use(cors());
   app.use("/uploads", express.static(path.resolve("./uploads")));
 

@@ -59,14 +59,16 @@ const PackagesSection = () => {
     setIsSubscribing(true);
     try {
       const response = await subscriptionService.subscribe(selectedPlan._id);
-      if (response.success) {
-        toast.success('تم الاشتراك بنجاح! شكراً لثقتك بمستعد');
-        setSelectedPlan(null);
-        window.location.reload();
+      if (response.success && response.data?.redirect_url) {
+        toast.info('جاري تحويلك لصفحة الدفع...', { position: 'top-center' });
+        // Redirect to PayTabs hosted payment page
+        window.location.href = response.data.redirect_url;
+      } else {
+        toast.error('فشل في إنشاء صفحة الدفع');
+        setIsSubscribing(false);
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'حدث خطأ أثناء الاشتراك');
-    } finally {
       setIsSubscribing(false);
     }
   };
@@ -283,11 +285,14 @@ const PackagesSection = () => {
               className={`flex-1 ${currentSubscription ? 'bg-red-600 hover:bg-red-700' : 'btn-hero-primary'}`}
             >
               {isSubscribing ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin ml-2" />
+                  جاري التحويل للدفع...
+                </>
               ) : currentSubscription ? (
-                'تأكيد التغيير'
+                'تأكيد التغيير والدفع'
               ) : (
-                'تأكيد الاشتراك'
+                'متابعة الدفع'
               )}
             </Button>
           </DialogFooter>

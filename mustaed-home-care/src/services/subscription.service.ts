@@ -25,6 +25,7 @@ export interface SubscriptionStats {
 }
 
 export const subscriptionService = {
+    // Initiates payment — returns redirect_url to PayTabs hosted page
     subscribe: async (planId: string) => {
         const response = await api.post('/subscription/subscribe', { planId });
         return response.data;

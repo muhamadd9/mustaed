@@ -4,6 +4,12 @@ import { authentication, authorization } from "../../middleware/auth.middleware.
 
 const router = Router();
 
+// PayTabs webhook — NO auth (server-to-server from PayTabs)
+router.post("/webhook", subscriptionService.handleWebhook);
+
+// PayTabs browser return — NO auth (browser redirect from PayTabs)
+router.get("/payment-return", subscriptionService.handlePaymentReturn);
+
 // User routes
 router.post("/subscribe", authentication(), subscriptionService.subscribe);
 router.get("/me", authentication(), subscriptionService.getMySubscription);

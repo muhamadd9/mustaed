@@ -68,7 +68,7 @@ const ContactSection = () => {
                   <div className={`text-sm ${contact.primary ? 'text-white/80' : 'text-muted-foreground'}`}>
                     {contact.label}
                   </div>
-                  <div className={`font-bold text-lg ${contact.primary ? 'text-white' : 'text-foreground'}`}>
+                  <div className={`font-bold text-lg ${contact.primary ? 'text-white' : 'text-foreground'}`} dir={contact.href.startsWith('https://wa.me') || contact.href.startsWith('mailto:') ? 'ltr' : undefined}>
                     {contact.value}
                   </div>
                 </div>

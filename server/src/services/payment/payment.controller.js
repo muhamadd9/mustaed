@@ -1,32 +1,24 @@
 import Router from "express";
 import { authentication, authorization } from "../../middleware/auth.middleware.js";
 import { validate } from "../../middleware/validation.middileware.js";
-import {
-    paymentIdSchema,
-    createPaymentSchema,
-    confirmPaymentSchema,
-    refundPaymentSchema
-} from "./payment.validation.js";
+import { paymentIdSchema, refundPaymentSchema } from "./payment.validation.js";
 import * as paymentService from "./payment.service.js";
 
 const paymentRouter = Router();
 
-// All routes require authentication
-paymentRouter.use(authentication(), authorization());
+// All routes require authentication + admin
+paymentRouter.use(authentication(), authorization(["admin"]));
 
-// Create payment
-paymentRouter.post("/create", validate(createPaymentSchema), paymentService.createPayment);
+// Get all payments (admin)
+paymentRouter.get("/all", paymentService.getAllPayments);
 
-// Confirm payment
-paymentRouter.post("/confirm/:id", validate(confirmPaymentSchema), paymentService.confirmPayment);
+// Get payment stats (admin)
+paymentRouter.get("/stats", paymentService.getPaymentStats);
 
-// Get user payment history
-paymentRouter.get("/user", paymentService.getUserPayments);
-
-// Get payment details
+// Get payment details (admin)
 paymentRouter.get("/:id", validate(paymentIdSchema), paymentService.getPaymentById);
 
-// Admin only - Refund payment
-paymentRouter.post("/refund/:id", authorization(['admin']), validate(refundPaymentSchema), paymentService.refundPayment);
+// Refund payment (admin)
+paymentRouter.post("/refund/:id", validate(refundPaymentSchema), paymentService.refundPayment);
 
 export default paymentRouter;
