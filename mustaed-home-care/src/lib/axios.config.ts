@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const api = axios.create({
-    baseURL: 'http://localhost:3400', // Ensure this matches your backend URL from .env.dev
+    baseURL: 'https://api.mostaed.com', // Ensure this matches your backend URL from .env.dev
     headers: {
         'Content-Type': 'application/json',
     },
