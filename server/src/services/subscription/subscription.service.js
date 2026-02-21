@@ -182,7 +182,7 @@ export const handleWebhook = async (req, res) => {
 /* Payment Return — browser redirect after payment */
 export const handlePaymentReturn = async (req, res) => {
     const { respStatus, tranRef, cartId } = req.query;
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:8080";
+    const frontendUrl = process.env.FRONTEND_URL || "https://mostaed.com";
 
     // Redirect to frontend payment return page with query params
     const params = new URLSearchParams();

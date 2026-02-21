@@ -23,6 +23,7 @@ import AdminOrders from '@/pages/admin/Orders/AdminOrders';
 import AdminPayments from '@/pages/admin/Payments/AdminPayments';
 import AdminUsers from '@/pages/admin/Users/AdminUsers';
 import PaymentReturn from '@/pages/PaymentReturn';
+import Plans from '@/pages/Plans';
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="request-visit" element={<RequestVisit />} />
               <Route path="my-visits" element={<MyVisits />} />
               <Route path="payment/return" element={<PaymentReturn />} />
+              <Route path="plans" element={<Plans />} />
               <Route path="*" element={<NotFound />} />
             </Route>
 
