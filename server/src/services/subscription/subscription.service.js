@@ -25,7 +25,8 @@ export const subscribe = asyncHandler(async (req, res, next) => {
     });
 
     const callbackUrl = `${process.env.WEBHOOK_BASE_URL}/subscription/webhook`;
-    const returnUrl = `${process.env.FRONTEND_URL}/payment/return`;
+    // Point return URL to BACKEND — backend accepts POST, then 302 redirects browser to frontend (GET)
+    const returnUrl = `${process.env.WEBHOOK_BASE_URL}/subscription/payment-return`;
 
     // Call PayTabs to create hosted payment page
     const paytabsResponse = await createPaymentPage({
@@ -181,10 +182,13 @@ export const handleWebhook = async (req, res) => {
 
 /* Payment Return — browser redirect after payment */
 export const handlePaymentReturn = async (req, res) => {
-    const { respStatus, tranRef, cartId } = req.query;
+    // PayTabs can POST or GET — params may be in body or query
+    const respStatus = req.body?.respStatus || req.query?.respStatus;
+    const tranRef = req.body?.tranRef || req.query?.tranRef;
+    const cartId = req.body?.cartId || req.query?.cartId;
     const frontendUrl = process.env.FRONTEND_URL || "https://mostaed.com";
 
-    // Redirect to frontend payment return page with query params
+    // Redirect to frontend payment return page with query params (always GET → no 405)
     const params = new URLSearchParams();
     if (respStatus) params.append("respStatus", respStatus);
     if (tranRef) params.append("tranRef", tranRef);

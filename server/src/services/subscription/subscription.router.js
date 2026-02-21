@@ -7,8 +7,9 @@ const router = Router();
 // PayTabs webhook — NO auth (server-to-server from PayTabs)
 router.post("/webhook", subscriptionService.handleWebhook);
 
-// PayTabs browser return — NO auth (browser redirect from PayTabs)
+// PayTabs browser return — NO auth (browser redirect from PayTabs — can be GET or POST)
 router.get("/payment-return", subscriptionService.handlePaymentReturn);
+router.post("/payment-return", subscriptionService.handlePaymentReturn);
 
 // User routes
 router.post("/subscribe", authentication(), subscriptionService.subscribe);
